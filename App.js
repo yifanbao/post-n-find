@@ -1,3 +1,29 @@
+import { Navigation } from 'react-native-navigation';
+import { Provider } from 'react-redux';
+
+import AuthScreen from './src/screens/Auth';
+import PostFoundNotice from './src/screens/PostFoundNotice';
+import ViewFoundNotice from './src/screens/ViewFoundNotice';
+import FoundNoticeDetail from './src/screens/FoundNoticeDetail';
+import configStore from './src/store/configStore';
+
+const store = configStore();
+
+// Register Screens
+Navigation.registerComponent('post-n-find.AuthScreen', () => AuthScreen, store, Provider);
+Navigation.registerComponent('post-n-find.PostItem', () => PostFoundNotice, store, Provider);
+Navigation.registerComponent('post-n-find.FindItem', () => ViewFoundNotice, store, Provider);
+Navigation.registerComponent('post-n-find.FoundNoticeDetailScreen', () => FoundNoticeDetail, store, Provider);
+
+// Start an App
+Navigation.startSingleScreenApp({
+  screen: {
+    screen: 'post-n-find.AuthScreen',
+    title: 'Login'
+  }
+});
+
+/*
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
@@ -61,3 +87,4 @@ const mapDispatchToProps = dispatch => {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+*/

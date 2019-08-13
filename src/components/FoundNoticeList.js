@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { StyleSheet, FlatList, TouchableOpacity, Text, Image } from 'react-native';
 
-class PlaceList extends Component {
+class FoundNoticeList extends Component {
   render() {
-    const ListItem = ({ key, name, image }) => (
-      <TouchableOpacity style={styles.listItem} key={key} onPress={() => this.props.onPlaceSelected(key)}>
-        <Image style={styles.placeImage} source={image} resizeMode="cover" />
-        <Text>{name}</Text>
+    const ListItem = ({ key, title, image }) => (
+      <TouchableOpacity style={styles.listItem} key={key} onPress={() => this.props.onItemSelected(key)}>
+        <Image style={styles.itemImage} source={image} resizeMode="cover" />
+        <Text>{title}</Text>
       </TouchableOpacity>
     );
 
     return (
       <FlatList
         style={styles.listContainer}
-        data={this.props.places}
+        data={this.props.foundNotices}
         renderItem={info => ListItem(info.item)}
       />
     )
@@ -32,11 +32,11 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#eee"
   },
-  placeImage: {
+  itemImage: {
     marginRight: 8,
     height: 30,
     width: 30
   }
 });
 
-export default PlaceList;
+export default FoundNoticeList;
