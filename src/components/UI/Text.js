@@ -4,7 +4,7 @@ import { StyleSheet, TextInput as DefaultTextInput, Text as DefaultText } from '
 export const TextInput = props => (
   <DefaultTextInput
     {...props}
-    style={[styles.textInput, props.style]}
+    style={[styles.textInput, props.style, props.valid === false ? styles.invalid : null]}
     underlineColorAndroid="transparent"
   />
 );
@@ -36,11 +36,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#eee"
   },
+  invalid: {
+    borderColor: "red",
+    backgroundColor: "#f9c0c0"
+  },
   text: {
     color: "black",
     backgroundColor: "transparent"
   },
   headerText: {
+    lineHeight: 50,
     fontSize: 28,
     fontWeight: "bold"
   }

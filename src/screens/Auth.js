@@ -1,60 +1,169 @@
 import React, { Component } from 'react';
-import { StyleSheet, Dimensions, View, ImageBackground } from 'react-native';
+import { StyleSheet, Dimensions, Keyboard, TouchableWithoutFeedback, View, KeyboardAvoidingView, ImageBackground } from 'react-native';
+import { connect } from 'react-redux';
+
 import { TextInput, HeaderText } from '../components/UI/Text';
 import { Button } from '../components/UI/Button';
-
 import startMainTabs from './startMainTabs';
+import validate from '../util/validation';
+import { authenticateUser } from '../store/actions/index';
 
 class AuthScreen extends Component {
   constructor(props) {
     super(props);
     Dimensions.addEventListener('change', this.updateViewMode);
-  }
 
-  state = {
-    isPortrait: Dimensions.get('window').height > 500
-  };
+    this.state = {
+      viewMode: Dimensions.get('window').height > 500 ? 'portrait': 'landscape',
+      authMode: 'login',
+      controls: {
+        email: { value: '', isValid: false, validationRules: { isEmail: true }, isTouched: false },
+        password: { value: '', isValid: false, validationRules: { minLength: 6 }, isTouched: false },
+        confirmPassword: { value: '', isValid: false, validationRules: { equalTo: 'password' }, isTouched: false },
+      }
+    };
+  }
 
   componentWillUnmount() {
     Dimensions.removeEventListener('change', this.updateViewMode);
   }
 
+  switchAuthModeHandler = () => {
+    this.setState(prevState => {
+      return {
+        authMode: prevState.authMode === 'login' ? 'signup' : 'login'
+      }
+    })
+  };
+
   updateViewMode = ({ window }) => {
     this.setState({
-      isPortrait: window.height > 500
+      viewMode: window.height > 500 ? 'portrait': 'landscape'
     })
   };
 
   loginHandler = () => {
+    const authData = {
+      email: this.state.controls.email.value,
+      password: this.state.controls.password.value
+    };
+    this.props.onLogin(authData);
     startMainTabs();
   };
 
-  render() {
-    let headerText = null;
+  updateInputState = (key, value) => {
+    // get related form input values if are required for validation
+    let connectedValue = {};
+    // values connected by equalTo rule
+    if (this.state.controls[key].validationRules.equalTo) {
+      const equalControl = this.state.controls[key].validationRules.equalTo;
+      const equalValue = this.state.controls[equalControl].value;
+      connectedValue = {
+        ...connectedValue,
+        equalTo: equalValue
+      }
+    }
 
-    if (this.state.isPortrait) {
+    this.setState(({ controls }) => {
+      return {
+        controls: {
+          ...controls,
+          // validate confirmPassword if password is mutated
+          confirmPassword: {
+            ...controls.confirmPassword,
+            isValid:
+              key === 'password'
+                ? validate(
+                  controls.confirmPassword.value,
+                  controls.confirmPassword.validationRules,
+                  controls.password.value
+                )
+                : controls.confirmPassword.isValid
+          },
+          // validate the mutated key
+          [key]: {
+            ...controls[key],
+            value,
+            isValid: validate(value, controls[key].validationRules, connectedValue),
+            isTouched: true
+          }
+        }
+      }
+    })
+  };
+
+  render() {
+    let isPortrait = this.state.viewMode === 'portrait';
+    let isLogin = this.state.authMode === 'login';
+
+    let headerText = null;
+    if (isPortrait) {
       headerText = (
         <HeaderText>Welcome to PostNFind</HeaderText>
       );
     }
 
+    let confirmPassword = null;
+    if (!isLogin) {
+      confirmPassword = (
+        <TextInput
+          style={isPortrait ? {} : styles.landscapePasswordInput}
+          placeholder="Confirm Password"
+          value={this.state.controls.confirmPassword.value}
+          onChangeText={val => this.updateInputState('confirmPassword', val)}
+          valid={this.state.controls.confirmPassword.isTouched ? this.state.controls.confirmPassword.isValid : null}
+          secureTextEntry
+        />
+      )
+    }
+
+    const { controls } = this.state;
+    let isFormValid = controls.email.isValid
+      && controls.password.isValid
+      && (isLogin || controls.confirmPassword.isValid);
+
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
         {headerText}
-        <Button style={styles.button} title="Switch To Login" onPress={this.loginHandler} />
-        <View style={styles.inputContainer}>
-          <TextInput placeholder="E-Mail Address" />
-          <View style={this.state.isPortrait ? {} : styles.landscapePasswordContainer}>
+        <Button
+          style={styles.button}
+          title={`Switch To ${isLogin ? 'Sign Up' : 'Login'}`}
+          onPress={this.switchAuthModeHandler}
+        />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.inputContainer}>
+            {/* E-Mail Address */}
             <TextInput
-              style={this.state.isPortrait ? {} : styles.landscapePasswordInput}
-              placeholder="Password" />
-            <TextInput
-              style={this.state.isPortrait ? {} : styles.landscapePasswordInput}
-              placeholder="Confirm Password" />
+              placeholder="E-Mail Address"
+              value={this.state.controls.email.value}
+              onChangeText={val => this.updateInputState('email', val)}
+              valid={this.state.controls.email.isTouched ? this.state.controls.email.isValid : null}
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="email-address"
+            />
+            <View style={isPortrait || isLogin ? {} : styles.landscapePasswordContainer}>
+              {/* Password */}
+              <TextInput
+                style={isPortrait || isLogin ? {} : styles.landscapePasswordInput}
+                placeholder="Password"
+                value={this.state.controls.password.value}
+                onChangeText={val => this.updateInputState('password', val)}
+                valid={this.state.controls.password.isTouched ? this.state.controls.password.isValid : null}
+                secureTextEntry
+              />
+              {/* Confirm Password */}
+              {confirmPassword}
+            </View>
           </View>
-        </View>
-        <Button style={styles.button} title="Login" onPress={this.loginHandler} />
-      </View>
+        </TouchableWithoutFeedback>
+        <Button
+          style={styles.button}
+          title="Login"
+          onPress={this.loginHandler}
+          disabled={!isFormValid}
+        />
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -80,4 +189,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AuthScreen;
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogin: authData => dispatch(authenticateUser(authData))
+  }
+};
+
+export default connect(null, mapDispatchToProps)(AuthScreen);
