@@ -18,6 +18,10 @@ class PostFoundNotice extends Component {
     title: ''
   };
 
+  static navigatorStyle = {
+    navBarButtonColor: "orange"
+  };
+
   onNavigatorEvent = event => {
     if (event.type === 'NavBarButtonPress') {
       if (event.id === 'sideDrawerToggle') {

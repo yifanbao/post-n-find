@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import FoundNoticeList from '../components/FoundNoticeList';
@@ -9,6 +9,10 @@ class ViewFoundNotice extends Component {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
+
+  static navigatorStyle = {
+    navBarButtonColor: "orange"
+  };
 
   onNavigatorEvent = event => {
     if (event.type === 'NavBarButtonPress') {
@@ -33,9 +37,9 @@ class ViewFoundNotice extends Component {
 
   render() {
     return (
-      <View>
+      <ScrollView>
         <FoundNoticeList foundNotices={this.props.foundNotices} onItemSelected={this.itemSelectedHandler} />
-      </View>
+      </ScrollView>
     );
   }
 }

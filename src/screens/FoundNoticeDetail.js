@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, View, Image, Text } from 'react-native';
+import { StyleSheet, Platform, TouchableOpacity, View, ScrollView, Image, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { deleteFoundNotice } from '../store/actions';
-
 import Icon from 'react-native-vector-icons/Ionicons';
+
+import { deleteFoundNotice } from '../store/actions';
 
 class FoundNoticeDetail extends Component {
   noticeDeletedHandler = () => {
@@ -13,17 +13,21 @@ class FoundNoticeDetail extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Image style={styles.noticeImage} source={this.props.notice.image}/>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Image style={styles.noticeImage} source={this.props.notice.image} />
         <Text style={styles.title}>{this.props.notice.title}</Text>
         <View>
           <TouchableOpacity onPress={this.noticeDeletedHandler}>
             <View style={styles.deleteButton}>
-              <Icon size={30} name="ios-trash" color="red" />
+              <Icon
+                name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
+                size={30}
+                color="red"
+              />
             </View>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     );
   };
 }

@@ -30,7 +30,8 @@ export const HeaderText = props => (
 const styles = StyleSheet.create({
   textInput: {
     width: "100%",
-    margin: 8,
+    marginTop: 8,
+    marginBottom: 8,
     padding: 5,
     borderWidth: 1,
     borderColor: "#eee"
