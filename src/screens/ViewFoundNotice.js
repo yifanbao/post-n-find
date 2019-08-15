@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, Animated, View, ScrollView, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import FoundNoticeList from '../components/FoundNoticeList';
 
 class ViewFoundNotice extends Component {
+  static navigatorStyle = {
+    navBarButtonColor: "orange"
+  };
+
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
-  static navigatorStyle = {
-    navBarButtonColor: "orange"
+  state = {
+    isListLoaded: false,
+    removeAnimation: new Animated.Value(0.99),
+    listAnimation: new Animated.Value(0)
   };
 
   onNavigatorEvent = event => {
@@ -20,6 +26,27 @@ class ViewFoundNotice extends Component {
         this.props.navigator.toggleDrawer({ side: 'left' })
       }
     }
+  };
+
+  noticesSearchHandler = () => {
+    Animated.timing(this.state.removeAnimation, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: true
+    }).start(() => {
+      this.setState({
+        isListLoaded: true
+      });
+      this.listLoadedHandler();
+    });
+  };
+
+  listLoadedHandler = () => {
+    Animated.timing(this.state.listAnimation, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true
+    }).start();
   };
 
   itemSelectedHandler = key =>{
@@ -36,13 +63,62 @@ class ViewFoundNotice extends Component {
   };
 
   render() {
+    let content = (
+      <Animated.View
+        style={{
+          opacity: this.state.removeAnimation,
+          transform: [
+            { scale: this.state.removeAnimation.interpolate({ inputRange: [0, 1], outputRange: [12, 1] }) }
+          ]
+        }}
+      >
+        <TouchableOpacity onPress={this.noticesSearchHandler}>
+          <View style={styles.searchButton}>
+            <Text style={styles.searchButtonText}>Find Item</Text>
+          </View>
+        </TouchableOpacity>
+      </Animated.View>
+    );
+
+    if (this.state.isListLoaded) {
+      content = (
+        <Animated.View style={{ opacity: this.state.listAnimation }}>
+          <FoundNoticeList
+            foundNotices={this.props.foundNotices}
+            onItemSelected={this.itemSelectedHandler}
+          />
+        </Animated.View>
+      )
+    }
+
     return (
-      <ScrollView>
-        <FoundNoticeList foundNotices={this.props.foundNotices} onItemSelected={this.itemSelectedHandler} />
+      <ScrollView contentContainerStyle={this.state.isListLoaded ? null : styles.buttonContainer}>
+        {content}
       </ScrollView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  buttonContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  listContainer: {
+  },
+  searchButton: {
+    borderWidth: 3,
+    borderRadius: 50,
+    borderColor: "orange",
+    padding: 20
+  },
+  searchButtonText: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "orange"
+  }
+});
 
 const mapStateToProps = ({ foundNotices }) => {
   return foundNotices;
