@@ -3,6 +3,7 @@ package com.postnfind;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.airbnb.android.react.maps.MapsPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
@@ -26,6 +27,7 @@ public class MainApplication extends NavigationApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new MapsPackage(),
             new NavigationReactPackage(),
             new VectorIconsPackage()
       );
@@ -60,7 +62,8 @@ public class MainApplication extends NavigationApplication {
   		// No need to add RnnPackage and MainReactPackage
   		return Arrays.<ReactPackage>asList(
   			// eg. new VectorIconsPackage()
-  			new VectorIconsPackage()
+  			new VectorIconsPackage(),
+        new MapsPackage()
   		);
   	}
 

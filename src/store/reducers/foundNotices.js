@@ -13,7 +13,8 @@ const reducers = (state = initialState, action) => {
         foundNotices: state.foundNotices.concat({
           key: Math.random().toString(),
           title: action.title,
-          image: itemImage
+          image: itemImage,
+          location: action.location
         })
       };
     case DELETE_FOUND_NOTICE:
