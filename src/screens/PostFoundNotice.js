@@ -16,7 +16,8 @@ class PostFoundNotice extends Component {
     this.state = {
       controls: {
         title: { value: '', isValid: false, validationRules: { notEmpty: true }, isTouched: false },
-        location: { value: null, isValid: false }
+        location: { value: null, isValid: false },
+        image: { value: null, isValid: false }
       }
     };
   }
@@ -44,6 +45,17 @@ class PostFoundNotice extends Component {
     });
   };
 
+  imagePickedHandler = image => {
+    this.setState(({ controls }) => {
+      return {
+        controls: {
+          ...controls,
+          image: { value: image, isValid: true }
+        }
+      }
+    })
+  };
+
   locationPickedHandler = location => {
     this.setState(({ controls }) => {
       return {
@@ -56,13 +68,13 @@ class PostFoundNotice extends Component {
   };
 
   noticeCreatedHandler = () => {
-    const { title, location } = this.state.controls;
-    this.props.onNoticeCreated(title.value, location.value);
+    const { title, image, location } = this.state.controls;
+    this.props.onNoticeCreated(title.value, image.value, location.value);
   };
 
   render() {
-    const { title, location } = this.state.controls;
-    let isFormValid = title.isValid && location.isValid;
+    const { title, image, location } = this.state.controls;
+    let isFormValid = title.isValid && image.isValid && location.isValid;
 
     return (
       <ScrollView>
@@ -73,7 +85,7 @@ class PostFoundNotice extends Component {
             value={this.state.controls.title.value}
             onChangeText={this.titleChangedHandler}
           />
-          <ImageUploader />
+          <ImageUploader onPickImage={this.imagePickedHandler} />
           <LocationPicker onPickLocation={this.locationPickedHandler} />
           <View style={styles.buttonContainer}>
             <Button title="Post" disabled={!isFormValid} onPress={this.noticeCreatedHandler} />
@@ -96,7 +108,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    onNoticeCreated: (title, location) => dispatch(createFoundNotice(title, location))
+    onNoticeCreated: (title, image, location) => dispatch(createFoundNotice(title, image, location))
   };
 };
 

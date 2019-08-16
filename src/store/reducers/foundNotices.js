@@ -13,7 +13,9 @@ const reducers = (state = initialState, action) => {
         foundNotices: state.foundNotices.concat({
           key: Math.random().toString(),
           title: action.title,
-          image: itemImage,
+          image: {
+            uri: action.image.uri
+          },
           location: action.location
         })
       };

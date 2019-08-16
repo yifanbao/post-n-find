@@ -3,6 +3,7 @@ package com.postnfind;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.imagepicker.ImagePickerPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class MainApplication extends NavigationApplication {
 
-  /*
+/*
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
     public boolean getUseDeveloperSupport() {
@@ -63,7 +64,8 @@ public class MainApplication extends NavigationApplication {
   		return Arrays.<ReactPackage>asList(
   			// eg. new VectorIconsPackage()
   			new VectorIconsPackage(),
-        new MapsPackage()
+        new MapsPackage(),
+        new ImagePickerPackage()
   		);
   	}
 

@@ -1,9 +1,10 @@
 import { CREATE_FOUND_NOTICE, DELETE_FOUND_NOTICE } from './actionTypes';
 
-export const createFoundNotice = (title, location) => {
+export const createFoundNotice = (title, image, location) => {
   return {
     type: CREATE_FOUND_NOTICE,
     title,
+    image,
     location
   };
 };
