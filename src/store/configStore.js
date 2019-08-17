@@ -1,4 +1,5 @@
-import { createStore, combineReducers, compose } from 'redux';
+import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
+import reduxThunk from 'redux-thunk';
 
 import foundNoticesReducer from './reducers/foundNotices';
 
@@ -13,7 +14,7 @@ if (__DEV__) {
 }
 
 const configStore = () => {
-  return createStore(rootReducer, composeEnhancers());
+  return createStore(rootReducer, composeEnhancers(applyMiddleware(reduxThunk)));
 };
 
 export default configStore;

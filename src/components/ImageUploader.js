@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Image, View, Button } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
+// import ImagePicker from 'react-native-image-crop-picker';
 
 class ImageUploader extends Component {
   state = {
@@ -8,7 +9,12 @@ class ImageUploader extends Component {
   };
 
   pickImageHandler = () => {
-    ImagePicker.showImagePicker({ title: 'Pick an Image' }, res => {
+    const options = {
+      title: 'Pick an Image',
+      maxWidth: 30,
+      maxHeight: 30
+    };
+    ImagePicker.showImagePicker(options, res => {
       if (res.didCancel) {
         console.log('User Canceled');
       } else if (res.error) {
@@ -17,7 +23,7 @@ class ImageUploader extends Component {
         this.setState({
           pickedImage: { uri: res.uri }
         });
-        this.props.onPickImage({ uri: res.uri })
+        this.props.onPickImage({ uri: res.uri, base64: res.data })
       }
     });
   };
