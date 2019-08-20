@@ -1,5 +1,4 @@
-import { CREATE_FOUND_NOTICE, DELETE_FOUND_NOTICE } from '../actions/actionTypes';
-import itemImage from '../../assets/NYC.jpeg';
+import { SET_FOUND_NOTICES, REMOVE_FOUND_NOTICE } from '../actions/actionTypes';
 
 const initialState = {
   foundNotices: []
@@ -7,19 +6,12 @@ const initialState = {
 
 const reducers = (state = initialState, action) => {
   switch (action.type) {
-    case CREATE_FOUND_NOTICE:
+    case SET_FOUND_NOTICES:
       return {
         ...state,
-        foundNotices: state.foundNotices.concat({
-          key: Math.random().toString(),
-          title: action.title,
-          image: {
-            uri: action.image.uri
-          },
-          location: action.location
-        })
+        foundNotices: action.foundNotices
       };
-    case DELETE_FOUND_NOTICE:
+    case REMOVE_FOUND_NOTICE:
       return {
         ...state,
         foundNotices: state.foundNotices.filter(({ key }) => {

@@ -1,5 +1,5 @@
-export const CREATE_FOUND_NOTICE = 'create_found_notice';
-export const DELETE_FOUND_NOTICE = 'delete_found_notice';
+export const SET_FOUND_NOTICES = 'set_found_notices';
+export const REMOVE_FOUND_NOTICE = 'remove_found_notice';
 
 export const AUTHENTICATE_USER = 'authenticate_user';
 

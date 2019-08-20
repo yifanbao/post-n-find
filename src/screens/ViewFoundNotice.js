@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity, Animated, View, ScrollView, Text } from '
 import { connect } from 'react-redux';
 
 import FoundNoticeList from '../components/FoundNoticeList';
+import { getFoundNotices } from '../store/actions/index';
 
 class ViewFoundNotice extends Component {
   static navigatorStyle = {
@@ -12,13 +13,17 @@ class ViewFoundNotice extends Component {
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+
+    this.state = {
+      isListLoaded: false,
+      removeAnimation: new Animated.Value(0.99),
+      listAnimation: new Animated.Value(0)
+    };
   }
 
-  state = {
-    isListLoaded: false,
-    removeAnimation: new Animated.Value(0.99),
-    listAnimation: new Animated.Value(0)
-  };
+  componentDidMount() {
+    this.props.onLoadFoundNotices();
+  }
 
   onNavigatorEvent = event => {
     if (event.type === 'NavBarButtonPress') {
@@ -50,8 +55,8 @@ class ViewFoundNotice extends Component {
   };
 
   itemSelectedHandler = key =>{
-    const notice = this.props.foundNotices.find(place => {
-      return place.key === key;
+    const notice = this.props.foundNotices.find(notice => {
+      return notice.key === key;
     });
     this.props.navigator.push({
       screen: 'post-n-find.FoundNoticeDetailScreen',
@@ -124,4 +129,10 @@ const mapStateToProps = ({ foundNotices }) => {
   return foundNotices;
 };
 
-export default connect(mapStateToProps)(ViewFoundNotice);
+const mapDispatchToProps = dispatch => {
+  return {
+    onLoadFoundNotices: () => dispatch(getFoundNotices())
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ViewFoundNotice);

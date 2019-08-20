@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView, Image } from 'react-native';
+import { StyleSheet, View, ScrollView, Image, Text, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 
 import { createFoundNotice } from '../store/actions/index';
@@ -76,6 +76,13 @@ class PostFoundNotice extends Component {
     const { title, image, location } = this.state.controls;
     let isFormValid = title.isValid && image.isValid && location.isValid;
 
+    let submitButton = (
+      <Button title="Post" disabled={!isFormValid} onPress={this.noticeCreatedHandler} />
+    );
+    if (this.props.isLoading) {
+      submitButton = <ActivityIndicator />;
+    }
+
     return (
       <ScrollView>
         <View style={styles.container}>
@@ -88,7 +95,7 @@ class PostFoundNotice extends Component {
           <ImageUploader onPickImage={this.imagePickedHandler} />
           <LocationPicker onPickLocation={this.locationPickedHandler} />
           <View style={styles.buttonContainer}>
-            <Button title="Post" disabled={!isFormValid} onPress={this.noticeCreatedHandler} />
+            {submitButton}
           </View>
         </View>
       </ScrollView>
@@ -106,10 +113,16 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => {
+  return {
+    isLoading: state.ui.isLoading
+  }
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     onNoticeCreated: (title, image, location) => dispatch(createFoundNotice(title, image, location))
   };
 };
 
-export default connect(null, mapDispatchToProps)(PostFoundNotice);
+export default connect(mapStateToProps, mapDispatchToProps)(PostFoundNotice);
