@@ -2,7 +2,6 @@ import { CREATE_FOUND_NOTICE, DELETE_FOUND_NOTICE } from './actionTypes';
 
 export const createFoundNotice = (title, image, location) => {
   return dispatch => {
-    console.log('create found notice');
     console.log(image.base64)
     fetch('https://us-central1-post-n-find-dev.cloudfunctions.net/storeImage', {
       method: 'POST',
@@ -27,7 +26,6 @@ export const createFoundNotice = (title, image, location) => {
       .catch(err => console.log(err))
       .then(res => res.json())
       .then(parsedRes => {
-        console.log('success!!');
         console.log(parsedRes);
       });
   };

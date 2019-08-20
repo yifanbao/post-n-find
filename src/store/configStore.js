@@ -2,9 +2,11 @@ import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
 
 import foundNoticesReducer from './reducers/foundNotices';
+import uiReducer from './reducers/ui';
 
 const rootReducer = combineReducers({
-  foundNotices: foundNoticesReducer
+  foundNotices: foundNoticesReducer,
+  ui: uiReducer
 });
 
 let composeEnhancers = compose;
