@@ -1,10 +1,12 @@
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
 
+import authReducer from './reducers/auth';
 import foundNoticesReducer from './reducers/foundNotices';
 import uiReducer from './reducers/ui';
 
 const rootReducer = combineReducers({
+  auth: authReducer,
   foundNotices: foundNoticesReducer,
   ui: uiReducer
 });

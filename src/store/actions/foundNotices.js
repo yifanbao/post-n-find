@@ -1,15 +1,27 @@
 import { SET_FOUND_NOTICES, REMOVE_FOUND_NOTICE } from './actionTypes';
-import { uiStartLoading, uiStopLoading } from './index';
+import { uiStartLoading, uiStopLoading, authGetToken } from './index';
 
 export const createFoundNotice = (title, image, location) => {
   return dispatch => {
+    let authToken;
     dispatch(uiStartLoading());
-    fetch('https://us-central1-post-n-find-dev.cloudfunctions.net/storeImage', {
-      method: 'POST',
-      body: JSON.stringify({
-        image: image.base64
+    dispatch(authGetToken())
+      .catch(() => {
+        alert('No valid token found :(');
+        dispatch(uiStopLoading());
       })
-    })
+      .then(token => {
+        authToken = token;
+        return fetch(`https://us-central1-post-n-find-dev.cloudfunctions.net/storeImage`, {
+          method: 'POST',
+          body: JSON.stringify({
+            image: image.base64
+          }),
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        })
+      })
       .then(res => res.json())
       .then(parsedRes => {
         const data = {
@@ -17,7 +29,7 @@ export const createFoundNotice = (title, image, location) => {
           location,
           image: parsedRes.imageUrl
         };
-        return fetch('https://post-n-find-dev.firebaseio.com/foundNotices.json', {
+        return fetch(`https://post-n-find-dev.firebaseio.com/foundNotices.json?auth=${authToken}`, {
           method: 'POST',
           body: JSON.stringify(data)
         })
@@ -42,7 +54,13 @@ export const createFoundNotice = (title, image, location) => {
 
 export const getFoundNotices = () => {
   return dispatch => {
-    fetch('https://post-n-find-dev.firebaseio.com/foundNotices.json')
+    dispatch(authGetToken())
+      .then(token => {
+        return fetch(`https://post-n-find-dev.firebaseio.com/foundNotices.json?auth=${token}`);
+      })
+      .catch(() => {
+        alert('No valid token found :(');
+      })
       .then(res => res.json())
       .then(parsedRes => {
         const foundNotices = [];
@@ -73,10 +91,16 @@ export const setFoundNotices = foundNotices => {
 
 export const deleteFoundNotice = key => {
   return dispatch => {
-    dispatch(removeFoundNotice(key));
-    fetch(`https://post-n-find-dev.firebaseio.com/foundNotices/${key}.json`, {
-      method: 'DELETE'
-    })
+    dispatch(authGetToken())
+      .catch(() => {
+        alert('No valid token found :(');
+      })
+      .then(token => {
+        dispatch(removeFoundNotice(key));
+        return fetch(`https://post-n-find-dev.firebaseio.com/foundNotices/${key}.json?auth=${token}`, {
+          method: 'DELETE'
+        });
+      })
       .then(res => res.json())
       .then(parsedRes => {
         console.log('Notice deleted!');

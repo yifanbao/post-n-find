@@ -1,4 +1,5 @@
 const functions = require('firebase-functions');
+const admin = require('firebase-admin');
 const cors = require('cors')({ origin: true });
 const fs = require('fs');
 const UUID = require('uuid');
@@ -10,11 +11,30 @@ const gcconfig = {
 
 const gcs = require('@google-cloud/storage')(gcconfig);
 
+admin.initializeApp({
+  credential: admin.credential.cert(require(`./${gcconfig.keyFilename}`))
+});
+
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
 exports.storeImage = functions.https.onRequest((req, res) => {
   return cors(req, res, () => {
+    if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
+      console.log('No token present');
+      return res.status(403).json({ error: 'Unauthorized' })
+    }
+    let idToken;
+    idToken = req.headers.authorization.split('Bearer ')[1];
+    admin.auth().verifyIdToken(idToken)
+      .then(decodedToken => {
+        console.log(decodedToken);
+      })
+      .catch(error => {
+        console.log('Token is invalid!');
+        return res.status(403).json({ error: 'Unauthorized' })
+      });
+
     const { image } = JSON.parse(req.body);
     fs.writeFileSync('/tmp/uploaded-image.jpg', image, 'base64', error => {
       console.log(error);

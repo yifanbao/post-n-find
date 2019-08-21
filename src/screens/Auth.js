@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Dimensions, Keyboard, TouchableWithoutFeedback, View, KeyboardAvoidingView, ImageBackground } from 'react-native';
+import { StyleSheet, Dimensions, Keyboard, TouchableWithoutFeedback, View, KeyboardAvoidingView, ImageBackground, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 
 import { TextInput, HeaderText } from '../components/UI/Text';
 import { Button } from '../components/UI/Button';
-import startMainTabs from './startMainTabs';
 import validate from '../util/validation';
 import { authenticateUser } from '../store/actions/index';
 
@@ -42,13 +41,12 @@ class AuthScreen extends Component {
     })
   };
 
-  loginHandler = () => {
+  authHandler = () => {
     const authData = {
       email: this.state.controls.email.value,
       password: this.state.controls.password.value
     };
-    this.props.onLogin(authData);
-    startMainTabs();
+    this.props.onAuthenticateUser(authData, this.state.authMode);
   };
 
   updateInputState = (key, value) => {
@@ -122,6 +120,18 @@ class AuthScreen extends Component {
       && controls.password.isValid
       && (isLogin || controls.confirmPassword.isValid);
 
+    let submitButton = (
+      <Button
+        style={styles.button}
+        title="Login"
+        onPress={this.authHandler}
+        disabled={!isFormValid}
+      />
+    );
+    if (this.props.isLoading) {
+      submitButton = <ActivityIndicator />
+    }
+
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         {headerText}
@@ -157,12 +167,7 @@ class AuthScreen extends Component {
             </View>
           </View>
         </TouchableWithoutFeedback>
-        <Button
-          style={styles.button}
-          title="Login"
-          onPress={this.loginHandler}
-          disabled={!isFormValid}
-        />
+        {submitButton}
       </KeyboardAvoidingView>
     );
   }
@@ -189,10 +194,16 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
   return {
-    onLogin: authData => dispatch(authenticateUser(authData))
+    isLoading: state.ui.isLoading
   }
 };
 
-export default connect(null, mapDispatchToProps)(AuthScreen);
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuthenticateUser: (authData, authMode) => dispatch(authenticateUser(authData, authMode))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);
