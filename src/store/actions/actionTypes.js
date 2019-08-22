@@ -1,5 +1,7 @@
 export const SET_FOUND_NOTICES = 'set_found_notices';
 export const REMOVE_FOUND_NOTICE = 'remove_found_notice';
+export const START_CREATING_FOUND_NOTICE = 'start_creating_found_notice';
+export const FOUND_NOTICE_CREATED = 'finish_creating_found_notice';
 
 export const AUTHENTICATE_USER = 'authenticate_user';
 export const AUTH_SET_TOKEN = 'auth_set_token';

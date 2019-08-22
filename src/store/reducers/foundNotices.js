@@ -1,7 +1,8 @@
-import { SET_FOUND_NOTICES, REMOVE_FOUND_NOTICE } from '../actions/actionTypes';
+import { SET_FOUND_NOTICES, REMOVE_FOUND_NOTICE, START_CREATING_FOUND_NOTICE, FOUND_NOTICE_CREATED } from '../actions/actionTypes';
 
 const initialState = {
-  foundNotices: []
+  foundNotices: [],
+  newFoundNoticeCreated: false
 };
 
 const reducers = (state = initialState, action) => {
@@ -17,6 +18,16 @@ const reducers = (state = initialState, action) => {
         foundNotices: state.foundNotices.filter(({ key }) => {
           return key !== action.key;
         })
+      };
+    case START_CREATING_FOUND_NOTICE:
+      return {
+        ...state,
+        newFoundNoticeCreated: false
+      };
+    case FOUND_NOTICE_CREATED:
+      return {
+        ...state,
+        newFoundNoticeCreated: true
       };
     default:
       return state;

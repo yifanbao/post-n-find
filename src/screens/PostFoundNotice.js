@@ -7,31 +7,51 @@ import { HeaderText, TextInput } from '../components/UI/Text';
 import { Button } from '../components/UI/Button';
 import ImageUploader from '../components/ImageUploader';
 import LocationPicker from '../components/LocationPicker';
+import { startCreatingFoundNotice } from '../store/actions/index';
 
 class PostFoundNotice extends Component {
-  constructor(props) {
-    super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
-
-    this.state = {
-      controls: {
-        title: { value: '', isValid: false, validationRules: { notEmpty: true }, isTouched: false },
-        location: { value: null, isValid: false },
-        image: { value: null, isValid: false }
-      }
-    };
-  }
-
   static navigatorStyle = {
     navBarButtonColor: "orange"
   };
 
+  initialState = {
+    controls: {
+      title: { value: '', isValid: false, validationRules: { notEmpty: true }, isTouched: false },
+      location: { value: null, isValid: false },
+      image: { value: null, isValid: false }
+    }
+  };
+
+  constructor(props) {
+    super(props);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    this.state = { ...this.initialState };
+  }
+
+  componentDidUpdate() {
+    if (this.props.foundNoticeCreated) {
+      this.props.navigator.switchToTab({ tabIndex: 1 });
+      this.reset();
+    }
+  }
+
   onNavigatorEvent = event => {
-    if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'sideDrawerToggle') {
-        this.props.navigator.toggleDrawer({ side: 'left' })
+    if (event.type === 'ScreenChangedEvent') {
+      if (event.id === 'willAppear') {
+        this.props.onStartCreatingNotice();
       }
     }
+    if (event.type === 'NavBarButtonPress') {
+      if (event.id === 'sideDrawerToggle') {
+        this.props.navigator.toggleDrawer({ side: 'left' });
+      }
+    }
+  };
+
+  reset = () => {
+    this.setState({ ...this.initialState });
+    this.refs.imageUploader.reset();
+    this.refs.locationPicker.reset();
   };
 
   titleChangedHandler = value => {
@@ -92,8 +112,8 @@ class PostFoundNotice extends Component {
             value={this.state.controls.title.value}
             onChangeText={this.titleChangedHandler}
           />
-          <ImageUploader onPickImage={this.imagePickedHandler} />
-          <LocationPicker onPickLocation={this.locationPickedHandler} />
+          <ImageUploader onPickImage={this.imagePickedHandler} ref="imageUploader" />
+          <LocationPicker onPickLocation={this.locationPickedHandler} ref="locationPicker" />
           <View style={styles.buttonContainer}>
             {submitButton}
           </View>
@@ -115,13 +135,15 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    isLoading: state.ui.isLoading
+    isLoading: state.ui.isLoading,
+    foundNoticeCreated: state.foundNotices.newFoundNoticeCreated
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onNoticeCreated: (title, image, location) => dispatch(createFoundNotice(title, image, location))
+    onNoticeCreated: (title, image, location) => dispatch(createFoundNotice(title, image, location)),
+    onStartCreatingNotice: () => dispatch(startCreatingFoundNotice())
   };
 };
 

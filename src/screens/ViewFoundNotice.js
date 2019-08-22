@@ -21,11 +21,12 @@ class ViewFoundNotice extends Component {
     };
   }
 
-  componentDidMount() {
-    this.props.onLoadFoundNotices();
-  }
-
   onNavigatorEvent = event => {
+    if (event.type === 'ScreenChangedEvent') {
+      if (event.id === 'willAppear') {
+        this.props.onLoadFoundNotices();
+      }
+    }
     if (event.type === 'NavBarButtonPress') {
       if (event.id === 'sideDrawerToggle') {
         this.props.navigator.toggleDrawer({ side: 'left' })

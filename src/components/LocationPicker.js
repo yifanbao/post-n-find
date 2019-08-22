@@ -3,7 +3,7 @@ import { StyleSheet, Dimensions, View, Button, Text } from 'react-native';
 import MapView from 'react-native-maps';
 
 class LocationPicker extends Component {
-  state = {
+  initialState = {
     focusedLocation: {
       latitude: 37.7900352,
       longitude: -122.4013726,
@@ -11,6 +11,15 @@ class LocationPicker extends Component {
       longitudeDelta: Dimensions.get('window').width / Dimensions.get('window').height * 0.122
     },
     isLocationPicked: false
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = { ...this.initialState };
+  }
+
+  reset = () => {
+    this.setState({ ...this.initialState })
   };
 
   pickLocationHandler = event => {

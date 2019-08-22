@@ -1,5 +1,11 @@
-import { SET_FOUND_NOTICES, REMOVE_FOUND_NOTICE } from './actionTypes';
+import { SET_FOUND_NOTICES, REMOVE_FOUND_NOTICE, START_CREATING_FOUND_NOTICE, FOUND_NOTICE_CREATED } from './actionTypes';
 import { uiStartLoading, uiStopLoading, authGetToken } from './index';
+
+export const startCreatingFoundNotice = () => {
+  return {
+    type: START_CREATING_FOUND_NOTICE
+  }
+};
 
 export const createFoundNotice = (title, image, location) => {
   return dispatch => {
@@ -43,6 +49,7 @@ export const createFoundNotice = (title, image, location) => {
       .then(parsedRes => {
         console.log(parsedRes);
         dispatch(uiStopLoading());
+        dispatch(foundNoticeCreated());
       })
       .catch(err => {
         console.log(err);
@@ -50,6 +57,12 @@ export const createFoundNotice = (title, image, location) => {
         dispatch(uiStopLoading());
       });
   };
+};
+
+export const foundNoticeCreated = () => {
+  return {
+    type: FOUND_NOTICE_CREATED
+  }
 };
 
 export const getFoundNotices = () => {

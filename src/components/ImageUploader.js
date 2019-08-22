@@ -4,8 +4,17 @@ import ImagePicker from 'react-native-image-picker';
 // import ImagePicker from 'react-native-image-crop-picker';
 
 class ImageUploader extends Component {
-  state = {
+  initialState = {
     pickedImage: null
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = { ...this.initialState };
+  }
+
+  reset = () => {
+    this.setState({ ...this.initialState })
   };
 
   pickImageHandler = () => {
