@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { TextInput, HeaderText } from '../components/UI/Text';
 import { Button } from '../components/UI/Button';
 import validate from '../util/validation';
-import { authenticateUser } from '../store/actions/index';
+import { authenticateUser, authAutoSignIn } from '../store/actions/index';
 
 class AuthScreen extends Component {
   constructor(props) {
@@ -25,6 +25,10 @@ class AuthScreen extends Component {
 
   componentWillUnmount() {
     Dimensions.removeEventListener('change', this.updateViewMode);
+  }
+
+  componentDidMount() {
+    this.props.onAutoSignIn();
   }
 
   switchAuthModeHandler = () => {
@@ -202,7 +206,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuthenticateUser: (authData, authMode) => dispatch(authenticateUser(authData, authMode))
+    onAuthenticateUser: (authData, authMode) => dispatch(authenticateUser(authData, authMode)),
+    onAutoSignIn: () => dispatch(authAutoSignIn())
   }
 };
 

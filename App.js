@@ -18,7 +18,7 @@ Navigation.registerComponent('post-n-find.FoundNoticeDetailScreen', () => FoundN
 Navigation.registerComponent('post-n-find.SideDrawer', () => SideDrawer, store, Provider);
 
 // Start an App
-Navigation.startSingleScreenApp({
+export default () => Navigation.startSingleScreenApp({
   screen: {
     screen: 'post-n-find.AuthScreen',
     title: 'Login'
