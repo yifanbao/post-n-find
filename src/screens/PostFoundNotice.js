@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView, Image, Text, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, ScrollView, Text, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 
 import { createFoundNotice } from '../store/actions/index';
-import { HeaderText, TextInput } from '../components/UI/Text';
+import { TextInput, TitleText } from '../components/UI/Text';
 import { Button } from '../components/UI/Button';
+import { Divider } from '../components/UI/Divider';
 import ImageUploader from '../components/ImageUploader';
 import LocationPicker from '../components/LocationPicker';
 import { startCreatingFoundNotice } from '../store/actions/index';
@@ -17,6 +18,7 @@ class PostFoundNotice extends Component {
   initialState = {
     controls: {
       title: { value: '', isValid: false, validationRules: { notEmpty: true }, isTouched: false },
+      description: { value: '', isValid: true },
       location: { value: null, isValid: false },
       image: { value: null, isValid: false }
     }
@@ -62,7 +64,18 @@ class PostFoundNotice extends Component {
           title: { ...controls.title, value, isValid: !!value.length }
         }
       }
-    });
+    })
+  };
+
+  descriptionChangedHandler = value => {
+    this.setState(({ controls }) => {
+      return {
+        controls: {
+          ...controls,
+          description: { ...controls.description, value }
+        }
+      }
+    })
   };
 
   imagePickedHandler = image => {
@@ -106,13 +119,27 @@ class PostFoundNotice extends Component {
     return (
       <ScrollView>
         <View style={styles.container}>
-          <HeaderText>New Found Notice</HeaderText>
+          <TitleText>Title</TitleText>
           <TextInput
             placeholder="Input your title"
+            maxLength={40}
+            autoFocus
             value={this.state.controls.title.value}
             onChangeText={this.titleChangedHandler}
           />
+          <TitleText>Description(Optional)</TitleText>
+          <TextInput
+            placeholder="Describe what you found"
+            maxLength={200}
+            multiline = {true}
+            numberOfLines = {4}
+            value={this.state.controls.description.value}
+            onChangeText={this.descriptionChangedHandler}
+          />
+          <TitleText>Photo</TitleText>
           <ImageUploader onPickImage={this.imagePickedHandler} ref="imageUploader" />
+          <Divider />
+          <TitleText>Location</TitleText>
           <LocationPicker onPickLocation={this.locationPickedHandler} ref="locationPicker" />
           <View style={styles.buttonContainer}>
             {submitButton}

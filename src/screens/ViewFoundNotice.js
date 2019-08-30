@@ -98,7 +98,7 @@ class ViewFoundNotice extends Component {
     }
 
     return (
-      <ScrollView contentContainerStyle={this.state.isListLoaded ? null : styles.buttonContainer}>
+      <ScrollView contentContainerStyle={this.state.isListLoaded ? styles.listContainer : styles.buttonContainer}>
         {content}
       </ScrollView>
     );
@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   listContainer: {
+    backgroundColor: "#EEF1F8"
   },
   searchButton: {
     borderWidth: 3,

@@ -12,8 +12,8 @@ const store = configStore();
 
 // Register Screens
 Navigation.registerComponent('post-n-find.AuthScreen', () => AuthScreen, store, Provider);
-Navigation.registerComponent('post-n-find.PostItem', () => PostFoundNotice, store, Provider);
-Navigation.registerComponent('post-n-find.FindItem', () => ViewFoundNotice, store, Provider);
+Navigation.registerComponent('post-n-find.PostFoundNoticeScreen', () => PostFoundNotice, store, Provider);
+Navigation.registerComponent('post-n-find.ViewFoundNoticeScreen', () => ViewFoundNotice, store, Provider);
 Navigation.registerComponent('post-n-find.FoundNoticeDetailScreen', () => FoundNoticeDetail, store, Provider);
 Navigation.registerComponent('post-n-find.SideDrawer', () => SideDrawer, store, Provider);
 

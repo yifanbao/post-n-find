@@ -54,14 +54,15 @@ class ImageUploader extends Component {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    alignItems: "center"
+    alignItems: "center",
+    paddingHorizontal: 10
   },
   placeholder: {
-    width: "80%",
+    width: 100,
     height: 100,
     borderWidth: 1,
-    borderColor: "black",
-    backgroundColor: "#eee"
+    borderColor: "#393C41",
+    backgroundColor: "#EEF1F8"
   },
   buttonContainer: {
     margin: 8

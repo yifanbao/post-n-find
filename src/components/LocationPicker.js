@@ -90,14 +90,15 @@ class LocationPicker extends Component {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    alignItems: "center"
+    alignItems: "center",
+    paddingHorizontal: 10
   },
   map: {
     width: "100%",
     height: 250,
     borderWidth: 1,
-    borderColor: "black",
-    backgroundColor: "#eee"
+    borderColor: "#393C41",
+    backgroundColor: "#EEF1F8"
   },
   buttonContainer: {
     margin: 8

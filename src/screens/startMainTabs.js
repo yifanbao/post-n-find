@@ -12,9 +12,9 @@ const startTabs = async () => {
   Navigation.startTabBasedApp({
     tabs: [
       {
-        screen: 'post-n-find.PostItem',
-        label: 'Create',
-        title: 'Create',
+        screen: 'post-n-find.PostFoundNoticeScreen',
+        label: 'Post',
+        title: 'New Found Notice',
         icon: sources[0],
         navigatorButtons: {
           leftButtons: [
@@ -23,9 +23,9 @@ const startTabs = async () => {
         }
       },
       {
-        screen: 'post-n-find.FindItem',
+        screen: 'post-n-find.ViewFoundNoticeScreen',
         label: 'Found',
-        title: 'Found',
+        title: 'Found Notices',
         icon: sources[1],
         navigatorButtons: {
           leftButtons: [

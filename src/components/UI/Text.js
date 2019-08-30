@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TextInput as DefaultTextInput, Text as DefaultText } from 'react-native';
+import { StyleSheet, View, TextInput as DefaultTextInput, Text as DefaultText } from 'react-native';
 
 export const TextInput = props => (
   <DefaultTextInput
@@ -27,26 +27,48 @@ export const HeaderText = props => (
   </Text>
 );
 
+export const TitleText = props => (
+  <View style={styles.titleTextContainer}>
+    <Text
+      {...props}
+      style={[styles.titleText, props.style]}
+    >
+      {props.children}
+    </Text>
+  </View>
+);
+
 const styles = StyleSheet.create({
   textInput: {
     width: "100%",
-    marginTop: 8,
-    marginBottom: 8,
-    padding: 5,
+    padding: 10,
+    paddingTop: 10,
     borderWidth: 1,
-    borderColor: "#eee"
+    borderColor: "#EEF1F8",
+    fontSize: 16,
+    color: "#393C41"
   },
   invalid: {
     borderColor: "red",
-    backgroundColor: "#f9c0c0"
+    backgroundColor: "#F9C0C0"
   },
   text: {
-    color: "black",
+    color: "#393C41",
     backgroundColor: "transparent"
   },
   headerText: {
     lineHeight: 50,
     fontSize: 28,
     fontWeight: "bold"
+  },
+  titleTextContainer: {
+    width: "100%",
+    justifyContent: "flex-start",
+    padding: 10,
+    paddingBottom: 5
+  },
+  titleText: {
+    fontSize: 14,
+    // color: "#494568"
   }
 });
