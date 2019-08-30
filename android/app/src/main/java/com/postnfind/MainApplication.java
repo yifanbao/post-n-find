@@ -65,6 +65,7 @@ public class MainApplication extends NavigationApplication {
   		// No need to add RnnPackage and MainReactPackage
   		return Arrays.<ReactPackage>asList(
   			// eg. new VectorIconsPackage()
+  			new AsyncStoragePackage(),
   			new VectorIconsPackage(),
         new MapsPackage(),
         new ImagePickerPackage()
