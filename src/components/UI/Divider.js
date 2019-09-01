@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
   divider: {
     width: "100%",
     height: 1,
+    marginVertical: 5,
     backgroundColor: COLORS.GRAY_LIGHTEN_4
   }
 });

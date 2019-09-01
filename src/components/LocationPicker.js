@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Dimensions, View, Button, Text } from 'react-native';
 import MapView from 'react-native-maps';
 
+import { TextButton } from './UI/Button';
 import COLORS from '../styles/colors';
 
 class LocationPicker extends Component {
@@ -82,7 +83,7 @@ class LocationPicker extends Component {
           {mapMarker}
         </MapView>
         <View style={styles.buttonContainer}>
-          <Button title="Locate Me" onPress={this.getCurrentLocationHandler} />
+          <TextButton title="Locate Me" onPress={this.getCurrentLocationHandler} />
         </View>
       </View>
     );

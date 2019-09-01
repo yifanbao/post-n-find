@@ -30,6 +30,27 @@ export const Button = props => {
   }
 };
 
+export const TextButton = props => {
+  const content = (
+    <Text style={[styles.textButton, props.style]}>{props.title}</Text>
+  );
+
+  switch (Platform.OS) {
+    case 'android':
+      return (
+        <TouchableNativeFeedback onPress={props.onPress}>
+          {content}
+        </TouchableNativeFeedback>
+      );
+    case 'ios':
+      return (
+        <TouchableOpacity onPress={props.onPress}>
+          {content}
+        </TouchableOpacity>
+      );
+  }
+};
+
 const styles = StyleSheet.create({
   button: {
     alignItems: "center",
@@ -48,5 +69,10 @@ const styles = StyleSheet.create({
   },
   disabledText: {
     color: COLORS.GRAY_LIGHTEN_2
+  },
+  textButton: {
+    padding: 5,
+    fontSize: 14,
+    color: COLORS.PURPLE
   }
 });

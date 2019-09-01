@@ -3,6 +3,7 @@ import { StyleSheet, Image, View, Button } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 // import ImagePicker from 'react-native-image-crop-picker';
 
+import { TextButton } from './UI/Button';
 import COLORS from '../styles/colors';
 
 class ImageUploader extends Component {
@@ -46,7 +47,7 @@ class ImageUploader extends Component {
           <Image style={styles.imagePreview} source={this.state.pickedImage} />
         </View>
         <View style={styles.buttonContainer}>
-          <Button title="Upload Image" onPress={this.pickImageHandler} />
+          <TextButton title="Upload Image" onPress={this.pickImageHandler} />
         </View>
       </View>
     );
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderWidth: 1,
-    borderColor: COLORS.GRAY_DARKEN_3,
+    borderColor: COLORS.GRAY,
     backgroundColor: COLORS.GRAY_LIGHTEN_4
   },
   buttonContainer: {
