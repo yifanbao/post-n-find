@@ -1,4 +1,6 @@
 const COLORS = {
+  RED: "#FA002A",
+  YELLOW: "#FAD200",
   PURPLE: "#6146FE",
   PURPLE_GRAY: "#494568",
   GRAY_DARKEN_3: "#393C41",

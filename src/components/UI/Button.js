@@ -31,24 +31,31 @@ export const Button = props => {
 };
 
 export const TextButton = props => {
-  const content = (
-    <Text style={[styles.textButton, props.style]}>{props.title}</Text>
-  );
+  let content;
 
   switch (Platform.OS) {
     case 'android':
-      return (
+      content = (
         <TouchableNativeFeedback onPress={props.onPress}>
-          {content}
+          <Text style={[styles.textButton, props.style]}>{props.title}</Text>
         </TouchableNativeFeedback>
       );
+      break;
     case 'ios':
-      return (
+      content = (
         <TouchableOpacity onPress={props.onPress}>
-          {content}
+          <Text style={[styles.textButton, props.style]}>{props.title}</Text>
         </TouchableOpacity>
       );
   }
+
+  return (
+    <View style={styles.textButtonContainer}>
+      <Text>{props.textBefore || ""}</Text>
+      {content}
+      <Text>{props.textAfter || ""}</Text>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -70,8 +77,12 @@ const styles = StyleSheet.create({
   disabledText: {
     color: COLORS.GRAY_LIGHTEN_2
   },
+  textButtonContainer: {
+    flexDirection: "row",
+    padding: 5
+  },
   textButton: {
-    padding: 5,
+    paddingHorizontal: 5,
     fontSize: 14,
     color: COLORS.PURPLE
   }

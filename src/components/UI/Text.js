@@ -7,6 +7,7 @@ export const TextInput = props => (
   <DefaultTextInput
     {...props}
     style={[styles.textInput, props.style, props.valid === false ? styles.invalid : null]}
+    selectionColor={COLORS.PURPLE}
     underlineColorAndroid="transparent"
   />
 );
@@ -43,6 +44,7 @@ export const TitleText = props => (
 const styles = StyleSheet.create({
   textInput: {
     width: "100%",
+    marginVertical: 5,
     padding: 10,
     paddingTop: 10,
     borderWidth: 1,
@@ -51,8 +53,7 @@ const styles = StyleSheet.create({
     color: COLORS.GRAY_DARKEN_3
   },
   invalid: {
-    borderColor: "red",
-    backgroundColor: "#F9C0C0"
+    borderColor: COLORS.RED
   },
   text: {
     color: COLORS.GRAY_DARKEN_3,

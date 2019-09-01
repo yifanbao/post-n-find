@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Dimensions, Keyboard, TouchableWithoutFeedback, View, KeyboardAvoidingView, ImageBackground, ActivityIndicator } from 'react-native';
+import { StyleSheet, Dimensions, Keyboard, TouchableWithoutFeedback, View, KeyboardAvoidingView, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
 
 import { TextInput, HeaderText } from '../components/UI/Text';
-import { Button } from '../components/UI/Button';
+import { Button, TextButton } from '../components/UI/Button';
+import { ActivityIndicator } from '../components/UI/ActivityIndicator';
 import validate from '../util/validation';
 import { authenticateUser, authAutoSignIn } from '../store/actions/index';
 
@@ -126,8 +127,7 @@ class AuthScreen extends Component {
 
     let submitButton = (
       <Button
-        style={styles.button}
-        title="Login"
+        title={isLogin ? "Login" : "Sign Up"}
         onPress={this.authHandler}
         disabled={!isFormValid}
       />
@@ -139,16 +139,16 @@ class AuthScreen extends Component {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         {headerText}
-        <Button
-          style={styles.button}
-          title={`Switch To ${isLogin ? 'Sign Up' : 'Login'}`}
+        <TextButton
+          textBefore={isLogin ? "New to PostNFind?" : "Already have an account?"}
+          title={isLogin ? "Sign up here" : "Login now"}
           onPress={this.switchAuthModeHandler}
         />
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inputContainer}>
-            {/* E-Mail Address */}
+            {/* E-mail Address */}
             <TextInput
-              placeholder="E-Mail Address"
+              placeholder="E-mail Address"
               value={this.state.controls.email.value}
               onChangeText={val => this.updateInputState('email', val)}
               valid={this.state.controls.email.isTouched ? this.state.controls.email.isValid : null}
@@ -192,9 +192,6 @@ const styles = StyleSheet.create({
   },
   landscapePasswordInput: {
     width: "48%"
-  },
-  button: {
-    backgroundColor: "#29aaf4"
   }
 });
 
