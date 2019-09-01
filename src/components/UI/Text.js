@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, TextInput as DefaultTextInput, Text as DefaultText } from 'react-native';
 
+import COLORS from '../../styles/colors';
+
 export const TextInput = props => (
   <DefaultTextInput
     {...props}
@@ -44,16 +46,16 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: 10,
     borderWidth: 1,
-    borderColor: "#EEF1F8",
+    borderColor: COLORS.GRAY_LIGHTEN_4,
     fontSize: 16,
-    color: "#393C41"
+    color: COLORS.GRAY_DARKEN_3
   },
   invalid: {
     borderColor: "red",
     backgroundColor: "#F9C0C0"
   },
   text: {
-    color: "#393C41",
+    color: COLORS.GRAY_DARKEN_3,
     backgroundColor: "transparent"
   },
   headerText: {
@@ -68,7 +70,6 @@ const styles = StyleSheet.create({
     paddingBottom: 5
   },
   titleText: {
-    fontSize: 14,
-    // color: "#494568"
+    fontSize: 14
   }
 });

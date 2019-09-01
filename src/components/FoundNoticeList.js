@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Dimensions, FlatList, TouchableOpacity, Text, Image } from 'react-native';
 
+import COLORS from '../styles/colors';
+
 class FoundNoticeList extends Component {
   render() {
     const ListItem = ({ key, title, image }) => (
@@ -27,7 +29,7 @@ const win = Dimensions.get('window');
 const styles = StyleSheet.create({
   listContainer: {
     width: "100%",
-    backgroundColor: "#EEF1F8"
+    backgroundColor: COLORS.GRAY_LIGHTEN_4
   },
   listItem: {
     width: "50%",
@@ -35,7 +37,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     padding: 10,
     borderRadius: 2,
-    backgroundColor: "#FFFFFF"
+    backgroundColor: COLORS.WHITE
   },
   itemImage: {
     marginBottom: 10,

@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
 import { authLogout } from '../store/actions/index';
+import COLORS from '../styles/colors';
 
 class SideDrawer extends Component{
   render() {
@@ -29,13 +30,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 50,
-    backgroundColor: "white"
+    backgroundColor: COLORS.WHITE
   },
   drawerItem: {
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
-    backgroundColor: "#eee"
+    backgroundColor: COLORS.GRAY_LIGHTEN_4
   },
   drawerItemIcon: {
     marginRight: 10

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, Dimensions, View, Button, Text } from 'react-native';
 import MapView from 'react-native-maps';
 
+import COLORS from '../styles/colors';
+
 class LocationPicker extends Component {
   initialState = {
     focusedLocation: {
@@ -97,8 +99,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 250,
     borderWidth: 1,
-    borderColor: "#393C41",
-    backgroundColor: "#EEF1F8"
+    borderColor: COLORS.GRAY_DARKEN_3,
+    backgroundColor: COLORS.GRAY_LIGHTEN_4
   },
   buttonContainer: {
     margin: 8

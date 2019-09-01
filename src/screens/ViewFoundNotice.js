@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 
 import FoundNoticeList from '../components/FoundNoticeList';
 import { getFoundNotices } from '../store/actions/index';
+import COLORS from '../styles/colors';
 
 class ViewFoundNotice extends Component {
   static navigatorStyle = {
-    navBarButtonColor: "orange"
+    navBarButtonColor: COLORS.PURPLE_GRAY
   };
 
   constructor(props) {
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   listContainer: {
-    backgroundColor: "#EEF1F8"
+    backgroundColor: COLORS.GRAY_LIGHTEN_4
   },
   searchButton: {
     borderWidth: 3,

@@ -1,10 +1,12 @@
 import React from 'react';
 import { StyleSheet, Platform, TouchableOpacity, TouchableNativeFeedback, View, Text } from 'react-native';
 
+import COLORS from '../../styles/colors';
+
 export const Button = props => {
   const content = (
     <View style={[styles.button, props.style, props.disabled ? styles.disabled : null]}>
-      <Text style={props.disabled ? styles.disabledText : null}>{props.title}</Text>
+      <Text style={[styles.text, props.disabled ? styles.disabledText : null]}>{props.title}</Text>
     </View>
   );
 
@@ -30,17 +32,21 @@ export const Button = props => {
 
 const styles = StyleSheet.create({
   button: {
+    alignItems: "center",
+    minWidth: 70,
     margin: 5,
     padding: 10,
     borderRadius: 5,
-    borderWidth: 1,
-    borderColor: "black"
+    backgroundColor: COLORS.PURPLE
+  },
+  text: {
+    fontSize: 16,
+    color: COLORS.WHITE
   },
   disabled: {
-    borderColor: "#aaa",
-    backgroundColor: "#eee"
+    backgroundColor: COLORS.GRAY_LIGHTEN_4
   },
   disabledText: {
-    color: "#aaa"
+    color: COLORS.GRAY_LIGHTEN_2
   }
 });

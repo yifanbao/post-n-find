@@ -3,6 +3,8 @@ import { StyleSheet, Image, View, Button } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 // import ImagePicker from 'react-native-image-crop-picker';
 
+import COLORS from '../styles/colors';
+
 class ImageUploader extends Component {
   initialState = {
     pickedImage: null
@@ -61,8 +63,8 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderWidth: 1,
-    borderColor: "#393C41",
-    backgroundColor: "#EEF1F8"
+    borderColor: COLORS.GRAY_DARKEN_3,
+    backgroundColor: COLORS.GRAY_LIGHTEN_4
   },
   buttonContainer: {
     margin: 8

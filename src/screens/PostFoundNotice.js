@@ -9,10 +9,11 @@ import { Divider } from '../components/UI/Divider';
 import ImageUploader from '../components/ImageUploader';
 import LocationPicker from '../components/LocationPicker';
 import { startCreatingFoundNotice } from '../store/actions/index';
+import COLORS from '../styles/colors';
 
 class PostFoundNotice extends Component {
   static navigatorStyle = {
-    navBarButtonColor: "orange"
+    navBarButtonColor: COLORS.PURPLE_GRAY
   };
 
   initialState = {

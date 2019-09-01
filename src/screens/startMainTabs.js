@@ -2,6 +2,8 @@ import { Navigation } from 'react-native-navigation';
 import { Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import COLORS from '../styles/colors';
+
 const startTabs = async () => {
   const sources = await Promise.all([
     Icon.getImageSource(Platform.OS === 'android' ? 'md-share-alt' : 'ios-share', 30),
@@ -35,7 +37,7 @@ const startTabs = async () => {
       }
     ],
     tabsStyle: {
-      tabBarSelectedButtonColor: "orange"
+      tabBarSelectedButtonColor: COLORS.PURPLE
     },
     drawer: {
       left: {
@@ -43,7 +45,7 @@ const startTabs = async () => {
       }
     },
     appStyle: {
-      tabBarSelectedButtonColor: "orange"
+      tabBarSelectedButtonColor: COLORS.PURPLE
     }
   });
 };
