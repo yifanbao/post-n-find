@@ -31,10 +31,13 @@ class PostFoundNotice extends Component {
     this.state = { ...this.initialState };
   }
 
+  componentWillMount() {
+    this.setState({ ...this.initialState });
+  }
+
   componentDidUpdate() {
     if (this.props.foundNoticeCreated) {
       this.props.navigator.switchToTab({ tabIndex: 1 });
-      this.reset();
     }
   }
 
@@ -102,8 +105,8 @@ class PostFoundNotice extends Component {
   };
 
   noticeCreatedHandler = () => {
-    const { title, image, location } = this.state.controls;
-    this.props.onNoticeCreated(title.value, image.value, location.value);
+    const { title, description, image, location } = this.state.controls;
+    this.props.onNoticeCreated(title.value, description.value, image.value, location.value);
   };
 
   render() {
@@ -170,7 +173,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onNoticeCreated: (title, image, location) => dispatch(createFoundNotice(title, image, location)),
+    onNoticeCreated: (title, description, image, location) => dispatch(createFoundNotice(title, description, image, location)),
     onStartCreatingNotice: () => dispatch(startCreatingFoundNotice())
   };
 };

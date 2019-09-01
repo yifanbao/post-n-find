@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import {StyleSheet, Platform, Dimensions, TouchableOpacity, View, Image, Text } from 'react-native';
+import {StyleSheet, Platform, Dimensions, TouchableOpacity, View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import MapView from 'react-native-maps';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import { Text, HeaderText } from '../components/UI/Text';
 import { deleteFoundNotice } from '../store/actions';
+import COLORS from "../styles/colors";
 
 class FoundNoticeDetail extends Component {
   constructor(props) {
@@ -37,7 +39,12 @@ class FoundNoticeDetail extends Component {
     return (
       <View style={[styles.container, isPortrait ? null : styles.landscapeContainer]}>
         <View style={styles.subContainer}>
-          <Text style={styles.title}>{this.props.notice.title}</Text>
+          <HeaderText style={styles.title}>{this.props.notice.title}</HeaderText>
+        </View>
+        <View style={styles.subContainer}>
+          <Text style={this.props.notice.description ? null : styles.noDescription}>
+            {this.props.notice.description || "(No Description)"}
+          </Text>
         </View>
         <View style={styles.subContainer}>
           <Image style={styles.noticeImage} source={this.props.notice.image} />
@@ -82,9 +89,10 @@ const styles = StyleSheet.create({
     flex: 1
   },
   title: {
-    textAlign: "center",
-    fontSize: 28,
-    fontWeight: "bold"
+    textAlign: "center"
+  },
+  noDescription: {
+    color: COLORS.GRAY_LIGHTEN_2
   },
   noticeImage: {
     width: "100%",

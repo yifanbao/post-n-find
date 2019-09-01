@@ -7,7 +7,7 @@ export const startCreatingFoundNotice = () => {
   }
 };
 
-export const createFoundNotice = (title, image, location) => {
+export const createFoundNotice = (title, description, image, location) => {
   return dispatch => {
     let authToken;
     dispatch(uiStartLoading());
@@ -32,6 +32,7 @@ export const createFoundNotice = (title, image, location) => {
       .then(parsedRes => {
         const data = {
           title,
+          description,
           location,
           image: parsedRes.imageUrl
         };
@@ -86,7 +87,7 @@ export const getFoundNotices = () => {
             });
           }
         }
-        dispatch(setFoundNotices(foundNotices));
+        dispatch(setFoundNotices(foundNotices.reverse()));
       })
       .catch(err => {
         console.log(err);
