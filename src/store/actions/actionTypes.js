@@ -1,3 +1,8 @@
+export const SET_LOST_NOTICES = 'set_lost_notices';
+export const REMOVE_LOST_NOTICE = 'remove_lost_notice';
+export const START_CREATING_LOST_NOTICE = 'start_creating_lost_notice';
+export const LOST_NOTICE_CREATED = 'finish_creating_lost_notice';
+
 export const SET_FOUND_NOTICES = 'set_found_notices';
 export const REMOVE_FOUND_NOTICE = 'remove_found_notice';
 export const START_CREATING_FOUND_NOTICE = 'start_creating_found_notice';

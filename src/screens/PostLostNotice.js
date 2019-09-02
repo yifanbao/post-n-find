@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView, Text, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 
-import { createFoundNotice } from '../store/actions/index';
+import { createLostNotice } from '../store/actions/index';
 import { TextInput, TitleText } from '../components/UI/Text';
 import { Button } from '../components/UI/Button';
 import { Divider } from '../components/UI/Divider';
 import ImageUploader from '../components/ImageUploader';
 import LocationPicker from '../components/LocationPicker';
-import { startCreatingFoundNotice } from '../store/actions/index';
+import { startCreatingLostNotice } from '../store/actions/index';
 import COLORS from '../styles/colors';
 
-class PostFoundNotice extends Component {
+class PostLostNotice extends Component {
   static navigatorStyle = {
     navBarButtonColor: COLORS.PURPLE_GRAY
   };
@@ -32,7 +32,7 @@ class PostFoundNotice extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.foundNoticeCreated) {
+    if (this.props.lostNoticeCreated) {
       this.props.navigator.switchToTab({ tabIndex: 1 });
     }
   }
@@ -130,7 +130,7 @@ class PostFoundNotice extends Component {
           />
           <TitleText>Description(Optional)</TitleText>
           <TextInput
-            placeholder="Describe what you found"
+            placeholder="Describe what you lost"
             maxLength={200}
             multiline = {true}
             numberOfLines = {4}
@@ -164,15 +164,15 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     isLoading: state.ui.isLoading,
-    foundNoticeCreated: state.foundNotices.newFoundNoticeCreated
+    lostNoticeCreated: state.lostNotices.newLostNoticeCreated
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onNoticeCreated: (title, description, image, location) => dispatch(createFoundNotice(title, description, image, location)),
-    onStartCreatingNotice: () => dispatch(startCreatingFoundNotice())
+    onNoticeCreated: (title, description, image, location) => dispatch(createLostNotice(title, description, image, location)),
+    onStartCreatingNotice: () => dispatch(startCreatingLostNotice())
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostFoundNotice);
+export default connect(mapStateToProps, mapDispatchToProps)(PostLostNotice);

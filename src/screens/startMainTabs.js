@@ -14,9 +14,9 @@ const startTabs = async () => {
   Navigation.startTabBasedApp({
     tabs: [
       {
-        screen: 'post-n-find.PostFoundNoticeScreen',
+        screen: 'post-n-find.PostRedirectionScreen',
         label: 'Post',
-        title: 'New Found Notice',
+        title: 'Post',
         icon: sources[0],
         navigatorButtons: {
           leftButtons: [
