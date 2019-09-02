@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { StyleSheet, Dimensions, FlatList, TouchableOpacity, Text, Image } from 'react-native';
+import { StyleSheet, Dimensions, FlatList, TouchableOpacity, Image } from 'react-native';
 
+import { Text } from './UI/Text';
 import COLORS from '../styles/colors';
 
 class FoundNoticeList extends Component {
   render() {
-    const ListItem = ({ key, title, image }) => (
+    const ListItem = ({ key, title, image, date }) => (
       <TouchableOpacity style={styles.listItem} key={key} onPress={() => this.props.onItemSelected(key)}>
         <Image style={styles.itemImage} source={image} resizeMode="cover" />
-        <Text>{title}</Text>
+        <Text style={styles.itemTitle}>{title}</Text>
+        <Text style={styles.itemDate}>{date}</Text>
       </TouchableOpacity>
     );
 
@@ -33,16 +35,24 @@ const styles = StyleSheet.create({
   },
   listItem: {
     width: "50%",
-    alignItems: "center",
+    alignItems: "flex-start",
     marginLeft: 5,
     padding: 10,
     borderRadius: 2,
     backgroundColor: COLORS.WHITE
   },
   itemImage: {
-    marginBottom: 10,
     height: (win.width - 55) / 2,
     width: (win.width - 55) / 2
+  },
+  itemTitle: {
+    marginTop: 10,
+    marginBottom: 5,
+    fontWeight: "500"
+  },
+  itemDate: {
+    fontSize: 12,
+    color: COLORS.GRAY
   }
 });
 

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import {StyleSheet, Platform, Dimensions, TouchableOpacity, View, Image } from 'react-native';
+import { StyleSheet, Platform, Dimensions, TouchableOpacity, View, ScrollView, Image } from 'react-native';
 import { connect } from 'react-redux';
 import MapView from 'react-native-maps';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { Text, HeaderText } from '../components/UI/Text';
+import { Divider } from '../components/UI/Divider';
 import { deleteFoundNotice } from '../store/actions';
-import COLORS from "../styles/colors";
+import COLORS from '../styles/colors';
 
 class FoundNoticeDetail extends Component {
   constructor(props) {
@@ -37,19 +38,31 @@ class FoundNoticeDetail extends Component {
     let isPortrait = this.state.viewMode === 'portrait';
 
     return (
-      <View style={[styles.container, isPortrait ? null : styles.landscapeContainer]}>
+      <ScrollView style={[styles.container, isPortrait ? null : styles.landscapeContainer]}>
         <View style={styles.subContainer}>
-          <HeaderText style={styles.title}>{this.props.notice.title}</HeaderText>
+          <Image style={styles.noticeImage} source={this.props.notice.image} />
+        </View>
+        <View style={styles.subContainer}>
+          <Text style={styles.title}>{this.props.notice.title}</Text>
         </View>
         <View style={styles.subContainer}>
           <Text style={this.props.notice.description ? null : styles.noDescription}>
             {this.props.notice.description || "(No Description)"}
           </Text>
         </View>
-        <View style={styles.subContainer}>
-          <Image style={styles.noticeImage} source={this.props.notice.image} />
+        <Divider />
+        <View style={[styles.subContainer, styles.dateContainer]}>
+          <Icon
+            name={Platform.OS === 'android' ? 'md-calendar' : 'ios-calendar'}
+            style={styles.dateIcon}
+            size={18}
+            color={COLORS.PURPLE_GRAY}
+          />
+          <Text>
+            {this.props.notice.date}
+          </Text>
         </View>
-        <View style={styles.subContainer}>
+        <View style={[styles.subContainer, styles.mapContainer]}>
           <MapView
             style={styles.mapView}
             initialRegion={{
@@ -61,7 +74,7 @@ class FoundNoticeDetail extends Component {
             <MapView.Marker coordinate={this.props.notice.location} />
           </MapView>
         </View>
-        <View style={styles.subContainer}>
+        {/*<View style={styles.subContainer}>
           <TouchableOpacity onPress={this.noticeDeletedHandler}>
             <View style={styles.deleteButton}>
               <Icon
@@ -71,32 +84,43 @@ class FoundNoticeDetail extends Component {
               />
             </View>
           </TouchableOpacity>
-        </View>
-      </View>
+        </View>*/}
+      </ScrollView>
     );
   };
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    margin: 22
+    margin: 15
   },
   landscapeContainer: {
     flexDirection: "row"
   },
   subContainer: {
-    flex: 1
+    maxHeight: 200,
+    marginVertical: 5
   },
-  title: {
-    textAlign: "center"
+  dateContainer: {
+    flexDirection: "row",
+    alignItems: "center"
   },
-  noDescription: {
-    color: COLORS.GRAY_LIGHTEN_2
+  mapContainer: {
+    height: 200
   },
   noticeImage: {
     width: "100%",
     height: 200
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "500"
+  },
+  noDescription: {
+    color: COLORS.GRAY_LIGHTEN_2
+  },
+  dateIcon: {
+    marginRight: 5
   },
   mapView: {
     ...StyleSheet.absoluteFillObject

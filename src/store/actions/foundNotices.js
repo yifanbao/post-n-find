@@ -34,7 +34,8 @@ export const createFoundNotice = (title, description, image, location) => {
           title,
           description,
           location,
-          image: parsedRes.imageUrl
+          image: parsedRes.imageUrl,
+          date: new Date()
         };
         return fetch(`https://post-n-find-dev.firebaseio.com/foundNotices.json?auth=${authToken}`, {
           method: 'POST',
@@ -80,9 +81,12 @@ export const getFoundNotices = () => {
         const foundNotices = [];
         for (let key in parsedRes) {
           if (parsedRes.hasOwnProperty(key)) {
+            let date = new Date(parsedRes[key].date);
+            date = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
             foundNotices.push({
               ...parsedRes[key],
               image: { uri: parsedRes[key].image },
+              date,
               key
             });
           }
