@@ -82,7 +82,7 @@ export const getFoundNotices = () => {
         for (let key in parsedRes) {
           if (parsedRes.hasOwnProperty(key)) {
             let date = new Date(parsedRes[key].date);
-            date = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+            date = date.toDateString().slice(4);
             foundNotices.push({
               ...parsedRes[key],
               image: { uri: parsedRes[key].image },

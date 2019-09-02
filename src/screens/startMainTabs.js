@@ -6,17 +6,29 @@ import COLORS from '../styles/colors';
 
 const startTabs = async () => {
   const sources = await Promise.all([
-    Icon.getImageSource(Platform.OS === 'android' ? 'md-share-alt' : 'ios-share', 30),
+    Icon.getImageSource(Platform.OS === 'android' ? 'md-add' : 'ios-add', 30),
     Icon.getImageSource(Platform.OS === 'android' ? 'md-map' : 'ios-map', 30),
-    Icon.getImageSource(Platform.OS === 'android' ? 'md-menu' : 'ios-menu', 30)
+    Icon.getImageSource(Platform.OS === 'android' ? 'md-menu' : 'ios-menu', 30),
+    Icon.getImageSource(Platform.OS === 'android' ? 'md-alert' : 'ios-alert', 30)
   ]);
 
   Navigation.startTabBasedApp({
     tabs: [
       {
+        screen: 'post-n-find.ViewLostNoticeScreen',
+        label: 'Lost',
+        title: 'Lost Notices',
+        icon: sources[3],
+        navigatorButtons: {
+          leftButtons: [
+            { icon: sources[2], title: 'Menu', id: 'sideDrawerToggle' }
+          ]
+        }
+      },
+      {
         screen: 'post-n-find.PostRedirectionScreen',
         label: 'Post',
-        title: 'Post',
+        title: 'Select Notice Type',
         icon: sources[0],
         navigatorButtons: {
           leftButtons: [

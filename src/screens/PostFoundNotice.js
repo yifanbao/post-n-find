@@ -33,7 +33,7 @@ class PostFoundNotice extends Component {
 
   componentDidUpdate() {
     if (this.props.foundNoticeCreated) {
-      this.props.navigator.switchToTab({ tabIndex: 1 });
+      this.props.navigator.switchToTab({ tabIndex: 2 });
     }
   }
 

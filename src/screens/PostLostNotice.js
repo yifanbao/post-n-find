@@ -33,7 +33,7 @@ class PostLostNotice extends Component {
 
   componentDidUpdate() {
     if (this.props.lostNoticeCreated) {
-      this.props.navigator.switchToTab({ tabIndex: 1 });
+      this.props.navigator.switchToTab({ tabIndex: 0 });
     }
   }
 

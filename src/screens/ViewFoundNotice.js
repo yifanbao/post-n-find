@@ -16,7 +16,7 @@ class ViewFoundNotice extends Component {
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
 
     this.state = {
-      isListLoaded: false,
+      isListLoaded: true,
       removeAnimation: new Animated.Value(0.99),
       listAnimation: new Animated.Value(0)
     };
@@ -87,20 +87,14 @@ class ViewFoundNotice extends Component {
       </Animated.View>
     );
 
-    if (this.state.isListLoaded) {
-      content = (
-        <Animated.View style={{ opacity: this.state.listAnimation }}>
+    return (
+      <ScrollView contentContainerStyle={styles.listContainer}>
+        <View>
           <FoundNoticeList
             foundNotices={this.props.foundNotices}
             onItemSelected={this.itemSelectedHandler}
           />
-        </Animated.View>
-      )
-    }
-
-    return (
-      <ScrollView contentContainerStyle={this.state.isListLoaded ? styles.listContainer : styles.buttonContainer}>
-        {content}
+        </View>
       </ScrollView>
     );
   }
